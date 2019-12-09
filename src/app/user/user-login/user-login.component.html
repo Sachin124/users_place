@@ -1,0 +1,64 @@
+<div class="content">
+  <div class="jumbotron d-flex align-items-center min-vh-100">
+    <div class="container-fluid">
+      <div class="col-lg-6 offset-lg-3">
+
+        <div class="row justify-content-center">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Log in</h4>
+              <p class="card-category">Log in to your account!</p>
+            </div>
+            <div class="card-body">
+              <form #loginForm="ngForm" novalidate>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Mobile No.</label>
+                      <input type="text" required [(ngModel)]="loginData.mobile_no" maxlength="10" minlength="10" [pattern]="mobilePattern" name="mobile_no" #mobile_noText="ngModel" class="form-control">
+                      <p class="text-danger" *ngIf="mobile_noText.invalid && (mobile_noText.dirty || mobile_noText.touched) && !mobile_noText.errors?.pattern">
+                          Enter your Mobile no.!
+                        </p>
+                        <p class="text-danger" *ngIf="mobile_noText.errors?.pattern">
+                            Invalid Mobile no.!
+                          </p>
+
+                        <div class="text-danger" *ngIf="loginForm.submitted && mobile_noText.invalid">
+                            <p *ngIf="mobile_noText.errors.required">Mobile no. is required</p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Password</label>
+                      <input type="text" required [(ngModel)]="loginData.password" name="password"  #passwordText="ngModel" class="form-control">
+                      <p class="text-danger" *ngIf="passwordText.invalid && (passwordText.dirty || passwordText.touched)">
+                          Enter your Password!
+                        </p>
+
+                        <div class="text-danger" *ngIf="loginForm.submitted && passwordText.invalid">
+                            <p *ngIf="passwordText.errors.required">Password is required</p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <button *ngIf="isLoggedIn == false" type="submit" (click)="login(loginForm)" class="btn btn-primary">Login</button>
+                  <span *ngIf="isLoggedIn == true" class="card-footer justify-content-center">
+                      <i class="fa fa-spinner fa-spin loadspiner fa-gradient" style="font-size:38px"></i>
+                    </span>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="row justify-content-center">
+                  <a href="javascript:void(0)" routerLink="/user/sign-up" class="text-right">Create account!</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

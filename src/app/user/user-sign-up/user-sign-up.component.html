@@ -1,0 +1,118 @@
+<div class="content">
+  <div class="jumbotron d-flex align-items-center min-vh-100">
+    <div class="container-fluid">
+      <div class="col-lg-6 offset-lg-3">
+
+        <div class="row justify-content-center">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Sign up</h4>
+              <p class="card-category">Complete your profile</p>
+            </div>
+            <div class="card-body">
+              <form #userForm="ngForm" novalidate>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Full name</label>
+                      <input type="text" required class="form-control" [(ngModel)]="userData.full_name" name="full_name" #full_nameText="ngModel">
+
+                      <p class="text-danger" *ngIf="full_nameText.invalid && (full_nameText.dirty || full_nameText.touched)">
+                          Enter your full name!
+                        </p>
+
+                        <div class="text-danger" *ngIf="userForm.submitted && full_nameText.invalid">
+                            <p *ngIf="full_nameText.errors.required">Full name is required</p>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Email address</label>
+                      <input type="email" required class="form-control" [pattern]="emailPattern" [(ngModel)]="userData.email_id" name="email_id" #email_idText="ngModel">
+                      <p class="text-danger" *ngIf="email_idText.invalid && (email_idText.dirty || email_idText.touched) && !email_idText.errors?.pattern">
+                          Enter your email-id!
+                        </p>
+
+                        <p class="text-danger" *ngIf="email_idText.errors?.pattern">
+                            Invalid email-id!
+                          </p>
+                        <div class="text-danger" *ngIf="userForm.submitted && email_idText.invalid">
+                            <p *ngIf="email_idText.errors.required">email-id is required</p>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Mobile No.</label>
+                      <input type="text" required class="form-control" [pattern]="mobilePattern" [(ngModel)]="userData.mobile_no" maxlength="10" minlength="10" name="mobile_no" #mobile_noText="ngModel">
+                      <p class="text-danger" *ngIf="mobile_noText.invalid && (mobile_noText.dirty || mobile_noText.touched) && !mobile_noText.errors?.pattern">
+                          Enter your Mobile no.!
+                        </p>
+                        <p class="text-danger" *ngIf="mobile_noText.errors?.pattern">
+                            Invalid Mobile no.!
+                          </p>
+
+                        <div class="text-danger" *ngIf="userForm.submitted && mobile_noText.invalid">
+                            <p *ngIf="mobile_noText.errors.required">Mobile no. is required</p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Account password</label>
+                      <input type="text" required class="form-control" [pattern]="passwordPattern" [(ngModel)]="userData.password" name="password"  #passwordText="ngModel">
+                      <p class="text-danger" *ngIf="passwordText.invalid && (passwordText.dirty || passwordText.touched) && !passwordText.errors?.pattern">
+                          Enter your password!
+                        </p>
+                        <p class="text-danger" *ngIf="passwordText.errors?.pattern">
+                            Password contains Minimum eight characters, at least one letter and one number.
+                          </p>
+
+                        <div class="text-danger" *ngIf="userForm.submitted && passwordText.invalid">
+                            <p *ngIf="passwordText.errors.required">password is required</p>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Confirm Password</label>
+                      <input type="text" required class="form-control" [(ngModel)]="userData.confirm_password"
+                        name="confirm_password"  #confirm_passwordText="ngModel">
+
+                        <p class="text-danger" *ngIf="confirm_passwordText.invalid && (confirm_passwordText.dirty || confirm_passwordText.touched)">
+                            Enter your Confirm password!
+                          </p>
+
+                          <div class="text-danger" *ngIf="userForm.submitted && confirm_passwordText.invalid">
+                              <p *ngIf="confirm_passwordText.errors.required">Confirm password is required</p>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row justify-content-center" *ngIf="passordMismatch">
+                    <p class="text-danger">{{passordMismatch}}</p>
+                </div>
+
+                <div class="row justify-content-center">
+                  <button type="submit" class="btn btn-primary" (click)="signup(userForm)">Update Profile</button>
+                  <div class="clearfix"></div>
+
+                </div>
+                <div class="row justify-content-center">
+                  <a href="javascript:void(0)" routerLink="/user/login" class="text-right">Already have account!</a>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
