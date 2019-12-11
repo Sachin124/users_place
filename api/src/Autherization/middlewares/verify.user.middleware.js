@@ -36,7 +36,6 @@ exports.hasAuthValidFields = (req, res, next) => {
 
 exports.isPasswordAndUserMatch = (req, res, next) => {
     let query = `SELECT * FROM account_master WHERE mobile_no="${req.body.mobile_no}" AND password="${md5(req.body.password)}" AND is_deleted=0`;
-    console.log(query);
 
     connection.query(query, (err, rows) => {
         if (!err) {

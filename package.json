@@ -26,6 +26,7 @@
     "ngx-bootstrap": "^5.2.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-image-uploader": "^6.0.0-beta.1",
+    "ng4-loading-spinner": "^1.2.3",
     "ngx-input-file": "^8.0.1",
     "ngx-toastr": "^10.0.4",
     "rxjs": "~6.4.0",

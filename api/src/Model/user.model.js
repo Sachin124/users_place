@@ -109,7 +109,7 @@ let userModel = {
 
     var deferred = Q.defer();
 
-    let query = `UPDATE user_details SET is_deleted= 1 WHERE user_id = ${req.params.user_id} AND created_by = ${req.jwt.userId}`;
+    let query = `UPDATE user_details user, user_saved_places place SET user.is_deleted= 1 , place.is_deleted= 1 WHERE user.user_id = place.user_id AND user.user_id = ${req.params.user_id} AND user.created_by = ${req.jwt.userId}`;
     connection.query(query, (err, rows) => {
 
       if (!err) {

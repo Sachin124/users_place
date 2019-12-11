@@ -63,7 +63,6 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json({limit:'50mb'}));
 app.use(bodyParser.urlencoded({extended:true, limit:'50mb'}));
-console.log(__dirname);
 
 app.use(express.static(__dirname + "/assets/places/"));
 

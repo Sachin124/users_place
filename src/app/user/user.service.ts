@@ -34,10 +34,11 @@ export class UserService {
 
   logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    this.router.navigate(["/user/login"]);
     this.cookieService.delete('currentUser');
 
-    this.router.navigate(["/user/login"]);
+    localStorage.removeItem('currentUser');
+
   }
 
   goHome() {

@@ -14,6 +14,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthInterceptor } from './guards/auth.interceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { LoaderInterceptor } from './guards/loader.interceptor';
 
 @NgModule({
   declarations: [
@@ -33,9 +35,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     }),
     RouterModule.forRoot(AppRoutes),
     BrowserAnimationsModule,
+    Ng4LoadingSpinnerModule.forRoot(),
     ModalModule.forRoot()
   ],
-  providers: [AuthGuard,AuthInterceptor, CookieService,
+  providers: [AuthGuard,AuthInterceptor, CookieService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

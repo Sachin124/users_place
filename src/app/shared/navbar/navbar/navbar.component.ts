@@ -19,8 +19,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout():void{
-    this.toaster.warning('User Logout', 'Success');
     this.userService.logout();
+
+    this.toaster.warning('User Logout', 'Success');
   }
 
 }
