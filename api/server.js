@@ -49,11 +49,7 @@ global.__basedir = __dirname;
 
 app.use(cors());
 
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
+
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -65,7 +61,11 @@ app.use(function (req, res, next) {
 });
 
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit:'50mb'}));
+app.use(bodyParser.urlencoded({extended:true, limit:'50mb'}));
+console.log(__dirname);
+
+app.use(express.static(__dirname + "/assets/places/"));
 
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
@@ -93,11 +93,11 @@ MANAGEUSER.routesConfig(app);
 /****************************************************Routing End************************************************************/
 
 
-app.use("/", express.static(path.join(__dirname, "/Angular/dist")));
-app.use(express.static(path.join(__dirname, "/Angular/dist")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/Angular/dist/index.html"));
-});
+// app.use("/", express.static(path.join(__dirname, "/Angular/dist")));
+// app.use(express.static(path.join(__dirname, "/Angular/dist")));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "/Angular/dist/index.html"));
+// });
 
 module.exports ={
   PORT

@@ -12,7 +12,7 @@
                         <p class="card-category"> Here is a subtitle for this table</p>
                     </div>
                     <div class="col-6">
-                        <button class="btn btn-md btn-info pull-right" (click)="openModal(template)">Add new</button>
+                        <button class="btn btn-md btn-info pull-right" routerLink="/users/places/place-form/new">Add new</button>
                     </div>
                   </div>
                 </div>
@@ -22,102 +22,33 @@
                       <thead class=" text-primary">
                         <th> ID </th>
                         <th> Name </th>
-                        <th> Country </th>
-                        <th> City </th>
-                        <th> Salary </th>
+                        <th> User Places </th>
+                        <th> Action </th>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td> Dakota Rice</td>
-                          <td> Niger</td>
-                          <td> Oud-Turnhout </td>
-                          <td class="text-primary">  $36,738</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            2
-                          </td>
-                          <td>
-                            Minerva Hooper
-                          </td>
-                          <td>
-                            Curaçao
-                          </td>
-                          <td>
-                            Sinaai-Waas
-                          </td>
-                          <td class="text-primary">
-                            $23,789
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            3
-                          </td>
-                          <td>
-                            Sage Rodriguez
-                          </td>
-                          <td>
-                            Netherlands
-                          </td>
-                          <td>
-                            Baileux
-                          </td>
-                          <td class="text-primary">
-                            $56,142
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            4
-                          </td>
-                          <td>
-                            Philip Chaney
-                          </td>
-                          <td>
-                            Korea, South
-                          </td>
-                          <td>
-                            Overland Park
-                          </td>
-                          <td class="text-primary">
-                            $38,735
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            5
-                          </td>
-                          <td>
-                            Doris Greene
-                          </td>
-                          <td>
-                            Malawi
-                          </td>
-                          <td>
-                            Feldkirchen in Kärnten
-                          </td>
-                          <td class="text-primary">
-                            $63,542
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            6
-                          </td>
-                          <td>
-                            Mason Porter
-                          </td>
-                          <td>
-                            Chile
-                          </td>
-                          <td>
-                            Gloucester
-                          </td>
-                          <td class="text-primary">
-                            $78,615
-                          </td>
+                        <tr *ngFor="let row of rows; let i = index">
+                          <td>{{i+1}}</td>
+                          <td>{{row.full_name}}</td>
+                          <td> <i class="fa fa-eye fa-gradient" style="font-size:20px; cursor: pointer;" matTooltip="View {{row.full_name}} Places"
+                            [matTooltipPosition]="'above'" aria-hidden="true" (click)="viewPlaces(row.user_id)"></i>&nbsp;
+</td>
+
+                           <td class="td-actions">
+                              <i class="fa fa-trash-o" style="font-size:20px;color:red; cursor: pointer;" matTooltip="Delete Cargo!"
+                                [matTooltipPosition]="'above'" aria-hidden="true" (click)="deleteUserDetails(row.user_id)"></i>&nbsp;
+
+                                <i class="fa fa-pencil" style="font-size:20px;color:rgb(61, 54, 160); cursor: pointer;" matTooltip="Edit User Places!"
+                                [matTooltipPosition]="'above'" aria-hidden="true" (click)="editPlaces(row.user_id)"></i>&nbsp;
+
+                              <i *ngIf="row.status == 0" class="fa fa-toggle-off"
+                                style="font-size:20px;color:rgb(165, 7, 7); cursor: pointer;" (click)="updateStatus(row.user_id, 1)"
+                                matTooltip="Active Cargo" [matTooltipPosition]="'above'" aria-hidden="true"></i>
+
+                              <i *ngIf="row.status == 1" class="fa fa-toggle-on"
+                                style="font-size:20px;color:rgb(8, 128, 18); cursor: pointer;"
+                                (click)="updateStatus(row.user_id, 0)" matTooltip="Deactive Cargo" [matTooltipPosition]="'above'"
+                                aria-hidden="true"></i>
+                            </td>
                         </tr>
                       </tbody>
                     </table>
@@ -141,11 +72,11 @@
               <div class="row">
                 <div class="col-6">
                     <h4 class="card-title ">User Places</h4>
-                    <p class="card-category"> Here is a subtitle for this table</p>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-md btn-info pull-right" (click)="openModal(template)">Add new</button>
-                </div>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>  </div>
               </div>
             </div>
           </div>

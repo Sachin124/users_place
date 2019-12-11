@@ -4,7 +4,18 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import '~ngx-toastr/toastr';
 
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+.main-panel {
+  display: inline;
+  float: none !important;
+}
+
+.place-img{
+  height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
 // .main-content{
 //   position: relative;
 //   margin-top: 70px;
@@ -14,3 +25,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // .card {
 //   box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);
 // }
+.fa-gradient {
+	background: linear-gradient(60deg, #1976d2, #8e24aa);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}

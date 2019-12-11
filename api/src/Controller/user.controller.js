@@ -36,9 +36,8 @@ let userController = {
     }
   },
 
-  get: (req, res) => {
-
-    UMODEL.get(req).then(rows => {
+  getUsers:(req,res)=>{
+    UMODEL.getUsers(req).then(rows => {
       response = {
         "status": 1,
         "data": rows
@@ -53,14 +52,82 @@ let userController = {
     });
   },
 
-  update: (req, res) => {
+  get: (req, res) => {
 
-    UMODEL.update(req).then(rows => {
-      // console.log(rows);
-
+    UMODEL.getUserPlaces(req).then(rows => {
       response = {
         "status": 1,
-        "message": 'Commission rate updated'
+        "data": rows
+      };
+      res.json(response);
+    }).catch(error => {
+      response = {
+        "status": 0,
+        "message": error.message
+      };
+      res.json(response);
+    });
+  },
+
+  uploadImage : (req, res) => {
+    if (!req.file) {
+        res.status(400).send({
+            status: false,
+            status_code: 200,
+            err: 'Image file is required',
+            param: "image",
+        });
+    }else{
+      res.status(200).send({
+        status: true,
+        status_code: 200,
+        message: "Place Image added",
+        image:req.file.filename
+    });
+    }
+  },
+
+  addPlaces: (req,res)=>{
+    UMODEL.addUserDetails(req).then(userDetails=>{
+      req.body.user_id = userDetails.insertId;
+      UMODEL.addPlaces(req).then(places=>{
+        response = {
+          "status": 1,
+          "message": 'User Place Added!'
+        };
+        res.json(response);
+      }).catch(error => {
+        response = {
+          "status": 0,
+          "message": error.message
+        };
+        res.json(response);
+      });
+    })
+  },
+
+  deleteUser: (req, res) => {
+
+    UMODEL.deleteUser(req).then(rows => {
+      response = {
+        "status": 1,
+        "message": 'User Deleted'
+      };
+      res.json(response);
+    }).catch(error => {
+      response = {
+        "status": 0,
+        "message": error.message
+      };
+      res.json(response);
+    });
+  },
+  updateUserStatus: (req, res) => {
+
+    UMODEL.updateUserStatus(req).then(rows => {
+      response = {
+        "status": 1,
+        "message": 'User status changed'
       };
       res.json(response);
     }).catch(error => {

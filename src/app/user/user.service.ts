@@ -39,4 +39,8 @@ export class UserService {
 
     this.router.navigate(["/user/login"]);
   }
+
+  goHome() {
+    this.router.navigate(["/users/places"]);
+  }
 }

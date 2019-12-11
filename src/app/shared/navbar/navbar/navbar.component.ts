@@ -14,6 +14,10 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
+  home(){
+    this.userService.goHome();
+  }
+
   logout():void{
     this.toaster.warning('User Logout', 'Success');
     this.userService.logout();

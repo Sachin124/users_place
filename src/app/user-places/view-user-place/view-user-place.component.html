@@ -1,0 +1,33 @@
+<div class="wrapper ">
+    <div class="main-panel">
+<div class="content">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header card-header-warning">
+          <h4 class="card-title">User All Saved Places</h4>
+        </div>
+        <div class="card-body">
+          <div id="typography">
+            <div class="row">
+                <div *ngFor="let row of savedPlaces" class="col-md-6">
+                  <div class="card card-chart">
+                    <div class="card-header card-header-success">
+                        <span class=""><i class="fa fa-long-arrow-up"></i> {{row.place_name}} </span>
+                    </div>
+                    <div class="card-body">
+                      <h4 class="card-title">Address: {{row.address}}</h4>
+                      <p class="card-category">Description: {{row.description}}</p>
+                    </div>
+                    <div class="card-footer justify-content-center">
+                     <img class="img-rounded" height="236" width="304"src="{{this.baseUrl +row.image_path}}" alt="place">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,1 +1,136 @@
-<p>add-place works!</p>
+<div class="wrapper ">
+  <div class="main-panel">
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <div class="row">
+                  <div class="col-6">
+                    <h4 class="card-title ">User Places</h4>
+                    <p class="card-category"> Here is a subtitle for this table</p>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-md btn-info pull-right"
+                      routerLink="/users/places">Back</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+
+              <div class="card-body">
+
+                <form [formGroup]="placeForm" #formDir="ngForm" novalidate>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width">
+                        <input matInput formControlName="name" placeholder="Enter full name" type="text" required>
+                        <mat-error
+                          *ngIf="placeForm.controls.name.invalid && (placeForm.controls.name.dirty || placeForm.controls.name.touched)">
+                          I am required!
+                        </mat-error>
+                        <mat-error *ngIf="formDir.submitted && placeForm.controls.name.invalid">
+                          <mat-error *ngIf="placeForm.controls.name.errors.required">Name is required</mat-error>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div formArrayName="placeDetails">
+                    <div *ngFor="let place of placeForm.get('placeDetails')['controls']; let i=index"
+                      class="panel panel-default">
+                      <div [formGroupName]="i">
+                        <strong>Place {{i+1}}</strong>
+                        <div class="row">
+                          <div class="col-6">
+                            <mat-form-field class="example-full-width">
+                              <input matInput formControlName="place_name" placeholder="Enter place name" type="text"
+                                required>
+
+                              <mat-error
+                                *ngIf="placeForm.controls.placeDetails.controls[i].controls.place_name.invalid && (placeForm.controls.placeDetails.controls[i].controls.place_name.dirty || placeForm.controls.placeDetails.controls[i].controls.place_name.touched)">
+                                Place name is required!
+                              </mat-error>
+                              <mat-error
+                                *ngIf="formDir.submitted && placeForm.controls.placeDetails.controls[i].controls.place_name.invalid">
+                                <mat-error
+                                  *ngIf="placeForm.controls.placeDetails.controls[i].controls.place_name.errors.required">
+                                  Place name is required</mat-error>
+                              </mat-error>
+
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-6">
+                            <mat-form-field class="example-full-width">
+                              <input matInput formControlName="description" placeholder="Enter description" type="text"
+                                required>
+                              <mat-error
+                                *ngIf="placeForm.controls.placeDetails.controls[i].controls.description.invalid && (placeForm.controls.placeDetails.controls[i].controls.description.dirty || placeForm.controls.placeDetails.controls[i].controls.description.touched)">
+                                Description is required!
+                              </mat-error>
+                              <mat-error
+                                *ngIf="formDir.submitted && placeForm.controls.placeDetails.controls[i].controls.description.invalid">
+                                <mat-error
+                                  *ngIf="placeForm.controls.placeDetails.controls[i].controls.description.errors.required">
+                                  Description is required</mat-error>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-8">
+                            <mat-form-field class="example-full-width">
+                              <input matInput formControlName="address" placeholder="Enter address" type="text"
+                                required>
+                              <mat-error
+                                *ngIf="!formDir.submitted && placeForm.controls.placeDetails.controls[i].controls.address.invalid && (placeForm.controls.placeDetails.controls[i].controls.address.dirty || placeForm.controls.placeDetails.controls[i].controls.address.touched)">
+                                address is required!
+                              </mat-error>
+                              <mat-error
+                                *ngIf="formDir.submitted && placeForm.controls.placeDetails.controls[i].controls.address.invalid">
+                                <mat-error
+                                  *ngIf="placeForm.controls.placeDetails.controls[i].controls.address.errors.required">
+                                  address is required</mat-error>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-2">
+                            <a  (click)="addPlaceDetails()" style="cursor: pointer">
+                              <i class="material-icons">
+                                add_circle
+                              </i>
+                            </a>
+                            <a *ngIf="i > 0" (click)="removePlaceDetails(i)" style="cursor: pointer">
+                              <i class="material-icons text-danger">
+                                cancel
+                              </i>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="row  justify-content-center">
+                          <input-file placeholder="Upload Place Image" (change)="post($event, i)">
+                          </input-file>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <button *ngIf="isEditForm" type="submit" class="btn btn-primary pull-right" (click)="save(placeForm)">Submit</button>
+                  <button *ngIf="!isEditForm" type="submit" class="btn btn-primary pull-right" (click)="update(placeForm)">Submit</button>
+
+                </form>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
