@@ -92,11 +92,11 @@ MANAGEUSER.routesConfig(app);
 /****************************************************Routing End************************************************************/
 
 
-// app.use("/", express.static(path.join(__dirname, "/Angular/dist")));
-// app.use(express.static(path.join(__dirname, "/Angular/dist")));
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "/Angular/dist/index.html"));
-// });
+app.use("/", express.static(path.join(__dirname, "../dist/truckish")));
+app.use(express.static(path.join(__dirname, "../dist/truckish")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/truckish/index.html"));
+});
 
 module.exports ={
   PORT

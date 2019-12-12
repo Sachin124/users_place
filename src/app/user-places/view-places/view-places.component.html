@@ -38,7 +38,7 @@
 
                         <td class="td-actions">
                           <i class="fa fa-trash-o" style="font-size:20px;color:red; cursor: pointer;"
-                            matTooltip="Delete Cargo!" [matTooltipPosition]="'above'" aria-hidden="true"
+                            matTooltip="Delete User Details!" [matTooltipPosition]="'above'" aria-hidden="true"
                             (click)="deleteUserDetails(row.user_id)"></i>&nbsp;
 
                           <i class="fa fa-pencil" style="font-size:20px;color:rgb(61, 54, 160); cursor: pointer;"
@@ -47,12 +47,12 @@
 
                           <i *ngIf="row.status == 0" class="fa fa-toggle-off"
                             style="font-size:20px;color:rgb(165, 7, 7); cursor: pointer;"
-                            (click)="updateStatus(row.user_id, 1)" matTooltip="Active Cargo"
+                            (click)="updateStatus(row.user_id, 1)" matTooltip="Active User Details"
                             [matTooltipPosition]="'above'" aria-hidden="true"></i>
 
                           <i *ngIf="row.status == 1" class="fa fa-toggle-on"
                             style="font-size:20px;color:rgb(8, 128, 18); cursor: pointer;"
-                            (click)="updateStatus(row.user_id, 0)" matTooltip="Deactive Cargo"
+                            (click)="updateStatus(row.user_id, 0)" matTooltip="Deactive User Details"
                             [matTooltipPosition]="'above'" aria-hidden="true"></i>
                         </td>
                       </tr>

@@ -9,7 +9,7 @@
                 <div class="row">
                   <div class="col-6">
                     <h4 class="card-title ">User Places</h4>
-                    <p class="card-category"> User All Places</p>
+                    <p class="card-category"> {{userName}}</p>
                   </div>
                   <div class="col-6">
                     <button class="btn btn-md btn-info pull-right"
@@ -41,7 +41,7 @@
 
                   <!-- Place Details Nested Array -->
                   <div formArrayName="placeDetails">
-                    <div *ngFor="let place of placeForm.get('placeDetails')['controls']; let i=index"
+                    <div *ngFor="let place of placeDetails.controls; let i=index"
                       class="panel panel-default">
                   <!-- Place Details Nested Array Form Group Dynamic-->
 
@@ -54,13 +54,13 @@
                                 required>
 
                               <mat-error
-                                *ngIf="placeForm.get('placeDetails').controls[i].controls.place_name.invalid && (placeForm.get('placeDetails').controls[i].controls.place_name.dirty || placeForm.get('placeDetails').controls[i].controls.place_name.touched)">
+                                *ngIf="placeDetails.controls[i].get('place_name').invalid && (placeDetails.controls[i].get('place_name').dirty || placeDetails.controls[i].get('place_name').touched)">
                                 Place name is required!
                               </mat-error>
                               <mat-error
-                                *ngIf="formDir.submitted && placeForm.get('placeDetails').controls[i].controls.place_name.invalid">
+                                *ngIf="formDir.submitted && placeDetails.controls[i].get('place_name').invalid">
                                 <mat-error
-                                  *ngIf="placeForm.get('placeDetails').controls[i].controls.place_name.errors.required">
+                                  *ngIf="placeDetails.controls[i].get('place_name').errors.required">
                                   Place name is required</mat-error>
                               </mat-error>
 
@@ -72,13 +72,13 @@
                               <input matInput formControlName="description" placeholder="Enter description" type="text"
                                 required>
                               <mat-error
-                                *ngIf="placeForm.get('placeDetails').controls[i].controls.description.invalid && (placeForm.get('placeDetails').controls[i].controls.description.dirty || placeForm.get('placeDetails').controls[i].controls.description.touched)">
+                                *ngIf="placeDetails.controls[i].get('description').invalid && (placeDetails.controls[i].get('description').dirty || placeDetails.controls[i].get('description').touched)">
                                 Description is required!
                               </mat-error>
                               <mat-error
-                                *ngIf="formDir.submitted && placeForm.get('placeDetails').controls[i].controls.description.invalid">
+                                *ngIf="formDir.submitted && placeDetails.controls[i].get('description').invalid">
                                 <mat-error
-                                  *ngIf="placeForm.get('placeDetails').controls[i].controls.description.errors.required">
+                                  *ngIf="placeDetails.controls[i].get('description').errors.required">
                                   Description is required</mat-error>
                               </mat-error>
                             </mat-form-field>
@@ -90,13 +90,13 @@
                               <input matInput formControlName="address" placeholder="Enter address" type="text"
                                 required>
                               <mat-error
-                                *ngIf="!formDir.submitted && placeForm.get('placeDetails').controls[i].controls.address.invalid && (placeForm.get('placeDetails').controls[i].controls.address.dirty || placeForm.get('placeDetails').controls[i].controls.address.touched)">
+                                *ngIf="!formDir.submitted && placeDetails.controls[i].get('address').invalid && (placeDetails.controls[i].get('address').dirty || placeDetails.controls[i].get('address').touched)">
                                 address is required!
                               </mat-error>
                               <mat-error
-                                *ngIf="formDir.submitted && placeForm.get('placeDetails').controls[i].controls.address.invalid">
+                                *ngIf="formDir.submitted && placeDetails.controls[i].get('address').invalid">
                                 <mat-error
-                                  *ngIf="placeForm.get('placeDetails').controls[i].controls.address.errors.required">
+                                  *ngIf="placeDetails.controls[i].get('address').errors.required">
                                   address is required</mat-error>
                               </mat-error>
                             </mat-form-field>

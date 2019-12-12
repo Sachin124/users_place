@@ -20,6 +20,7 @@ export class AddPlaceComponent implements OnInit {
   isEditForm: boolean = false;
   baseUrl = environment.imageUrl;
   isImageShow: boolean =false;
+  userName: string = 'Add New Places';
   constructor(private fb: FormBuilder,private router: Router, private placeService: PlaceService, private toaster: ToastrService,private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -30,6 +31,7 @@ export class AddPlaceComponent implements OnInit {
         if (res.status == 1) {
           this.isEditForm = true;
           this.isImageShow = true;
+          this.userName = `Edit ${res.data[0].full_name}`
           this.placeForm.controls['name'].setValue(res.data[0].full_name);
           // this.placeForm.setControl('placeDetails', this.fb.array(res.data || []));
           for (let index = 0; index < res.data.length; index++) {
@@ -49,7 +51,9 @@ export class AddPlaceComponent implements OnInit {
       this.addPlaceDetails();
     }
   }
-
+  get placeDetails(): FormArray {
+		return this.placeForm.get('placeDetails') as FormArray;
+	}
 
 
   /* Creating the New Form which is reactive nested form */
@@ -72,7 +76,7 @@ export class AddPlaceComponent implements OnInit {
   /* Add new place form */
 
   addPlaceDetails() {
-    const control = <FormArray>this.placeForm.controls['placeDetails'];
+    const control = <FormArray>this.placeForm.get('placeDetails');
 
     const addCtrl = this.initPlaceDetails();
 
@@ -82,7 +86,7 @@ export class AddPlaceComponent implements OnInit {
   /* Remove the place */
 
   removePlaceDetails(i: number) {
-    const control = <FormArray>this.placeForm.controls['placeDetails'];
+    const control = <FormArray>this.placeForm.get('placeDetails');
     control.removeAt(i);
   }
 
