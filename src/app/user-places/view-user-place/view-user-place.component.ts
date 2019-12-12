@@ -16,18 +16,13 @@ export class ViewUserPlaceComponent implements OnInit {
   ngOnInit() {
    let userId = this.route.snapshot.paramMap.get("userid")
 
+   // Getting userId from routing params and serach places for that user
    this.userPlaceService.getAllPlacesById(userId).subscribe(res=>{
-     console.log(res);
     this.savedPlaces = res.data;
    },error=>{
      console.log(error);
-
    })
-
   }
 
-  loadData(){
-
-  }
 
 }

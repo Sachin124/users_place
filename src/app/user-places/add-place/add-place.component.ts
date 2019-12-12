@@ -4,7 +4,8 @@ import { ImageUploaderOptions, FileQueueObject } from 'ngx-image-uploader';
 import { InputFileComponent } from 'ngx-input-file';
 import { PlaceService } from '../place.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'add-place',
@@ -17,34 +18,30 @@ export class AddPlaceComponent implements OnInit {
   placeForm: FormGroup;
   savedPlaces: any;
   isEditForm: boolean = false;
-  constructor(private fb: FormBuilder, private placeService: PlaceService, private toaster: ToastrService,private route: ActivatedRoute) { }
+  baseUrl = environment.imageUrl;
+  isImageShow: boolean =false;
+  constructor(private fb: FormBuilder,private router: Router, private placeService: PlaceService, private toaster: ToastrService,private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.createForm();
     let userId = this.route.snapshot.paramMap.get("id")
-    let user_name = this.route.snapshot.paramMap.get("user_name")
-
-
-    if (userId != 'new') {
+    if (userId != 'new') { // If it is edit form
       this.placeService.getAllPlacesById(userId).subscribe(res=>{
         if (res.status == 1) {
           this.isEditForm = true;
+          this.isImageShow = true;
           this.placeForm.controls['name'].setValue(res.data[0].full_name);
           // this.placeForm.setControl('placeDetails', this.fb.array(res.data || []));
           for (let index = 0; index < res.data.length; index++) {
             const element = res.data[index];
             this.addPlaceDetails();
-
             let faControl = (<FormArray>this.placeForm.controls['placeDetails']).at(index);
             faControl['controls'].place_name.setValue(element.place_name);
             faControl['controls'].description.setValue(element.description);
             faControl['controls'].image_path.setValue(element.image_path);
             faControl['controls'].address.setValue(element.address);
           }
-
         }
-
-
       },error=>{
         console.log(error);
       })
@@ -53,10 +50,13 @@ export class AddPlaceComponent implements OnInit {
     }
   }
 
+
+
+  /* Creating the New Form which is reactive nested form */
   createForm() {
     this.placeForm = this.fb.group({
       name: ['', Validators.required],
-      placeDetails: this.fb.array([])
+      placeDetails: this.fb.array([]) // Nested Reactive form for multiple places deteails
     });
   }
 
@@ -68,6 +68,9 @@ export class AddPlaceComponent implements OnInit {
       address: ['', Validators.required]
     })
   }
+
+  /* Add new place form */
+
   addPlaceDetails() {
     const control = <FormArray>this.placeForm.controls['placeDetails'];
 
@@ -76,15 +79,20 @@ export class AddPlaceComponent implements OnInit {
     control.push(addCtrl);
   }
 
+  /* Remove the place */
+
   removePlaceDetails(i: number) {
     const control = <FormArray>this.placeForm.controls['placeDetails'];
     control.removeAt(i);
   }
 
-  public post(fileInput, index) {
-    console.log(index);
 
+  /* Uploading the place image*/
+
+
+  public post(fileInput, index) {
     const formdata = new FormData();
+    this.isImageShow = false;
     const image: File = <File>this.InputFileComponent.files[0].file;
     formdata.append('image', image)
     this.placeService.addPlaceImage(formdata).subscribe(res => {
@@ -97,34 +105,35 @@ export class AddPlaceComponent implements OnInit {
     })
   }
 
+  /* Saving User details with places  */
+
   save(placeDetails) {
     if (placeDetails.valid) {
       this.placeService.addNewPlace(placeDetails.value).subscribe(res=>{
         if (res.status == 1) {
          this.toaster.success(res.message, 'Success');
+         this.router.navigate(['users/places']);
           this.placeForm.reset();
         }
        },error=>{
          console.log(error);
-
        })
     }
-
   }
+
+  /* Updating User details with places  */
 
   update(placeDetails) {
     if (placeDetails.valid) {
-      this.placeService.addNewPlace(placeDetails.value).subscribe(res=>{
+      this.placeService.updatePlace(placeDetails.value, this.route.snapshot.paramMap.get("id")).subscribe(res=>{
         if (res.status == 1) {
-         this.toaster.success(res.message, 'Success');
-          this.placeForm.reset();
+         this.toaster.info(res.message, 'Success');
+         this.router.navigate(['users/places']);
         }
        },error=>{
          console.log(error);
-
        })
     }
-
   }
 
 }

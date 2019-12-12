@@ -9,7 +9,7 @@
                 <div class="row">
                   <div class="col-6">
                     <h4 class="card-title ">User Places</h4>
-                    <p class="card-category"> Here is a subtitle for this table</p>
+                    <p class="card-category"> User All Places</p>
                   </div>
                   <div class="col-6">
                     <button class="btn btn-md btn-info pull-right"
@@ -39,9 +39,12 @@
                     </div>
                   </div>
 
+                  <!-- Place Details Nested Array -->
                   <div formArrayName="placeDetails">
                     <div *ngFor="let place of placeForm.get('placeDetails')['controls']; let i=index"
                       class="panel panel-default">
+                  <!-- Place Details Nested Array Form Group Dynamic-->
+
                       <div [formGroupName]="i">
                         <strong>Place {{i+1}}</strong>
                         <div class="row">
@@ -51,13 +54,13 @@
                                 required>
 
                               <mat-error
-                                *ngIf="placeForm.controls.placeDetails.controls[i].controls.place_name.invalid && (placeForm.controls.placeDetails.controls[i].controls.place_name.dirty || placeForm.controls.placeDetails.controls[i].controls.place_name.touched)">
+                                *ngIf="placeForm.get('placeDetails').controls[i].controls.place_name.invalid && (placeForm.get('placeDetails').controls[i].controls.place_name.dirty || placeForm.get('placeDetails').controls[i].controls.place_name.touched)">
                                 Place name is required!
                               </mat-error>
                               <mat-error
-                                *ngIf="formDir.submitted && placeForm.controls.placeDetails.controls[i].controls.place_name.invalid">
+                                *ngIf="formDir.submitted && placeForm.get('placeDetails').controls[i].controls.place_name.invalid">
                                 <mat-error
-                                  *ngIf="placeForm.controls.placeDetails.controls[i].controls.place_name.errors.required">
+                                  *ngIf="placeForm.get('placeDetails').controls[i].controls.place_name.errors.required">
                                   Place name is required</mat-error>
                               </mat-error>
 
@@ -69,13 +72,13 @@
                               <input matInput formControlName="description" placeholder="Enter description" type="text"
                                 required>
                               <mat-error
-                                *ngIf="placeForm.controls.placeDetails.controls[i].controls.description.invalid && (placeForm.controls.placeDetails.controls[i].controls.description.dirty || placeForm.controls.placeDetails.controls[i].controls.description.touched)">
+                                *ngIf="placeForm.get('placeDetails').controls[i].controls.description.invalid && (placeForm.get('placeDetails').controls[i].controls.description.dirty || placeForm.get('placeDetails').controls[i].controls.description.touched)">
                                 Description is required!
                               </mat-error>
                               <mat-error
-                                *ngIf="formDir.submitted && placeForm.controls.placeDetails.controls[i].controls.description.invalid">
+                                *ngIf="formDir.submitted && placeForm.get('placeDetails').controls[i].controls.description.invalid">
                                 <mat-error
-                                  *ngIf="placeForm.controls.placeDetails.controls[i].controls.description.errors.required">
+                                  *ngIf="placeForm.get('placeDetails').controls[i].controls.description.errors.required">
                                   Description is required</mat-error>
                               </mat-error>
                             </mat-form-field>
@@ -87,13 +90,13 @@
                               <input matInput formControlName="address" placeholder="Enter address" type="text"
                                 required>
                               <mat-error
-                                *ngIf="!formDir.submitted && placeForm.controls.placeDetails.controls[i].controls.address.invalid && (placeForm.controls.placeDetails.controls[i].controls.address.dirty || placeForm.controls.placeDetails.controls[i].controls.address.touched)">
+                                *ngIf="!formDir.submitted && placeForm.get('placeDetails').controls[i].controls.address.invalid && (placeForm.get('placeDetails').controls[i].controls.address.dirty || placeForm.get('placeDetails').controls[i].controls.address.touched)">
                                 address is required!
                               </mat-error>
                               <mat-error
-                                *ngIf="formDir.submitted && placeForm.controls.placeDetails.controls[i].controls.address.invalid">
+                                *ngIf="formDir.submitted && placeForm.get('placeDetails').controls[i].controls.address.invalid">
                                 <mat-error
-                                  *ngIf="placeForm.controls.placeDetails.controls[i].controls.address.errors.required">
+                                  *ngIf="placeForm.get('placeDetails').controls[i].controls.address.errors.required">
                                   address is required</mat-error>
                               </mat-error>
                             </mat-form-field>
@@ -112,16 +115,20 @@
                           </div>
                         </div>
                         <div class="row  justify-content-center">
+                          <img *ngIf="isImageShow" height="150" width="100px" src="{{baseUrl + placeForm.controls['placeDetails']['controls'][i].controls.image_path.value}}" alt="">
                           <input-file placeholder="Upload Place Image" (change)="post($event, i)">
                           </input-file>
                         </div>
                       </div>
+                  <!-- Place Details Nested Array Form Group Dynamic End-->
+
                     </div>
 
                   </div>
+                  <!-- Place Details Nested Array End  -->
 
-                  <button *ngIf="isEditForm" type="submit" class="btn btn-primary pull-right" (click)="save(placeForm)">Submit</button>
-                  <button *ngIf="!isEditForm" type="submit" class="btn btn-primary pull-right" (click)="update(placeForm)">Submit</button>
+                  <button *ngIf="!isEditForm" type="submit" class="btn btn-primary pull-right" (click)="save(placeForm)">Submit</button>
+                  <button *ngIf="isEditForm" type="submit" class="btn btn-primary pull-right" (click)="update(placeForm)">Update</button>
 
                 </form>
 

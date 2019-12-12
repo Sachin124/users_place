@@ -23,24 +23,19 @@ export class UserLoginComponent implements OnInit {
   }
 
   login(formValue: NgForm) {
-    console.log(formValue);
     if (formValue.invalid == false) {
       this.isLoggedIn = true;
-
       this.userService.login(formValue.value).subscribe(res => {
-        console.log(res);
         if (res.status == true) {
-          this.toastr.success(res.message, 'Success')
-
+          this.toastr.success(res.message, 'Success');
           this.cookieService.set('currentUser', JSON.stringify(res));
           setTimeout(() => {
             this.isLoggedIn = false;
             this.router.navigate(['/users/places']);
           }, 2000);
         }
-
       }, error => {
-        this.toastr.error(error.error.errors, 'Error')
+        this.toastr.error(error.error.message, 'Error')
         setTimeout(() => {
           this.isLoggedIn = false;
         }, 2000);

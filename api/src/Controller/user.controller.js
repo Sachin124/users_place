@@ -8,6 +8,9 @@ const UMODEL = require('../Model/user.model');
 
 let userController = {
 
+  /*****************************************Add New User Account***************************************************************/
+
+
   addUser: (req, res) => {
     req.checkBody("email_id", "email_id is required").notEmpty();
     req.checkBody("mobile_no", "mobile_no is required").notEmpty();
@@ -36,6 +39,8 @@ let userController = {
     }
   },
 
+  /*****************************************Get All User Details***************************************************************/
+
   getUsers:(req,res)=>{
     UMODEL.getUsers(req).then(rows => {
       response = {
@@ -51,6 +56,8 @@ let userController = {
       res.json(response);
     });
   },
+
+  /*****************************************Get All User Places***************************************************************/
 
   get: (req, res) => {
 
@@ -69,6 +76,9 @@ let userController = {
     });
   },
 
+  /*****************************************Upload Place Image using Multer***************************************************************/
+
+
   uploadImage : (req, res) => {
     if (!req.file) {
         res.status(400).send({
@@ -86,6 +96,8 @@ let userController = {
     });
     }
   },
+
+  /*****************************************Add New User Place ***************************************************************/
 
   addPlaces: (req,res)=>{
     UMODEL.addUserDetails(req).then(userDetails=>{
@@ -106,6 +118,30 @@ let userController = {
     })
   },
 
+  /*****************************************Update User Places***************************************************************/
+
+  updatePlaces: (req,res)=>{
+    UMODEL.addUserDetails(req).then(userDetails=>{
+      UMODEL.deletePlaces(req).then(deleteDetails=>{
+      UMODEL.updatePlaces(req).then(places=>{
+        response = {
+          "status": 1,
+          "message": 'User Place updated!'
+        };
+        res.json(response);
+      }).catch(error => {
+        response = {
+          "status": 0,
+          "message": error.message
+        };
+        res.json(response);
+      });
+    });
+    });
+  },
+
+  /*****************************************Delete User In this we are doing soft delete using is_delted flag********************************/
+
   deleteUser: (req, res) => {
 
     UMODEL.deleteUser(req).then(rows => {
@@ -122,6 +158,10 @@ let userController = {
       res.json(response);
     });
   },
+
+  /*****************************************User Activate/Deactivate***************************************************************/
+
+
   updateUserStatus: (req, res) => {
 
     UMODEL.updateUserStatus(req).then(rows => {

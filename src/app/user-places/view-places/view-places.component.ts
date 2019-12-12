@@ -9,48 +9,50 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./view-places.component.scss']
 })
 export class ViewPlacesComponent implements OnInit {
-  rows: any;
-  constructor( private placeService: PlaceService, private router: Router, private toaster: ToastrService) { }
+  rows: any = null;
+  constructor(private placeService: PlaceService, private router: Router, private toaster: ToastrService) { }
 
   ngOnInit() {
     this.loadData();
   }
 
-  loadData(){
-    this.placeService.getUsers().subscribe(res=>{
-      console.log(res);
-      if (res.status = 1) {
+  /*****************************************Load All Users***************************************************************/
+
+  loadData() {
+    this.placeService.getUsers().subscribe(res => {
+      if (res.status = 1 && res.data[0]) {
         this.rows = res.data;
       }
 
-    },error=>{
+    }, error => {
       console.log(error);
     })
   }
-  deleteUserDetails(user_id){
-    this.placeService.deleteUser(user_id).subscribe(res=>{
+
+  /*****************************************Delete Users***************************************************************/
+
+  deleteUserDetails(user_id) {
+    this.placeService.deleteUser(user_id).subscribe(res => {
       if (res.status = 1) {
         this.toaster.info(res.message, 'Success');
         this.loadData();
       }
-
-    },error=>{
+    }, error => {
       console.log(error);
     })
   }
+
+  /*****************************************Active/Deactive User status***************************************************************/
 
   updateStatus(user_id, status: number): void {
     this.placeService.updateStatus(user_id).subscribe(res => {
       if (res.status == true) {
         this.loadData();
-
-
         if (status === 0) {
           this.toaster.warning('Success', 'User Deactivated');
 
         } else {
           this.toaster.success('Success', 'User Activated');
-
         }
       }
     }, error => {
@@ -58,11 +60,14 @@ export class ViewPlacesComponent implements OnInit {
     })
   }
 
-  editPlaces(userId){
+  /*****************************************Edit User Places***************************************************************/
+
+  editPlaces(userId) {
     this.router.navigate(['users/places/place-form', userId])
   }
 
-  viewPlaces(userId){
+  /*****************************************View All User Places***************************************************************/
+  viewPlaces(userId) {
     this.router.navigate(['users/places/view-user-places', userId])
   }
 }

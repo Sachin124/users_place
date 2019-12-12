@@ -9,6 +9,8 @@ const md5 = require('md5');
 
 let userModel = {
 
+  /*****************************************Add New User Account***************************************************************/
+
   addUser: (req, res) => {
 
     var deferred = Q.defer();
@@ -26,9 +28,15 @@ let userModel = {
     return deferred.promise;
   },
 
+  /*****************************************Add New Place User ***************************************************************/
+
+
   addUserDetails: (req, res) => {
     var deferred = Q.defer();
-    let query = `INSERT INTO user_details(full_name,created_by) VALUES ('${req.body.name}', ${req.jwt.userId})`;
+    let query =`INSERT INTO user_details(full_name,created_by) VALUES ('${req.body.name}', ${req.jwt.userId})`;
+    if (req.params.user_id) {
+     query = `UPDATE user_details SET full_name='${req.body.name}' WHERE user_id = ${req.params.user_id}`;
+    }
     connection.query(query, (err, rows) => {
 
       if (!err) {
@@ -39,6 +47,9 @@ let userModel = {
     });
     return deferred.promise;
   },
+
+  /*****************************************Update New Place User***************************************************************/
+
   updateUserDetails: (req, res) => {
     var deferred = Q.defer();
     let query = `UPDATE user_details SET full_name='${req.body.name}'`;
@@ -52,6 +63,8 @@ let userModel = {
     });
     return deferred.promise;
   },
+
+  /*****************************************Add New User Place ***************************************************************/
 
   addPlaces: (req, res) => {
     var deferred = Q.defer();
@@ -71,6 +84,8 @@ let userModel = {
     return deferred.promise;
   },
 
+  /*****************************************Get All User Details***************************************************************/
+
   getUsers: (req, res) => {
 
     var deferred = Q.defer();
@@ -88,6 +103,8 @@ let userModel = {
     return deferred.promise;
   },
 
+  /*****************************************Get All User Places***************************************************************/
+
   getUserPlaces: (req, res) => {
 
     var deferred = Q.defer();
@@ -102,8 +119,9 @@ let userModel = {
       }
     });
     return deferred.promise;
-    // genricResponse(query);
   },
+
+  /*****************************************Delete User In this we are doing soft delete using is_delted flag********************************/
 
   deleteUser: (req, res) => {
 
@@ -121,6 +139,9 @@ let userModel = {
     return deferred.promise;
     // genricResponse(query);
   },
+
+  /*****************************************User Activate/Deactivate***************************************************************/
+
   updateUserStatus:(req, res) => {
     var deferred = Q.defer();
 
@@ -134,22 +155,43 @@ let userModel = {
       }
     });
     return deferred.promise;
-  }
+  },
+
+  /*****************************************Delete User In this we are doing soft delete using is_delted flag********************************/
+
+  deletePlaces:(req, res) => {
+    var deferred = Q.defer();
+    let query = `DELETE FROM user_saved_places WHERE user_id = ${req.params.user_id}`;
+    connection.query(query, (err, rows) => {
+
+      if (!err) {
+        deferred.resolve(rows);
+      } else {
+        deferred.reject(new Error(err));
+      }
+    });
+    return deferred.promise;
+  },
+
+  /*****************************************Update User Places***************************************************************/
+
+  updatePlaces: (req, res) => {
+    var deferred = Q.defer();
+    let query = `INSERT INTO user_saved_places(user_id, user_master_id, place_name, description, image_path, address) VALUES ?`;
+    var userPlaces = [];
+    for (let index = 0; index < req.body.placeDetails.length; index++) {
+      const element = req.body.placeDetails[index];
+      userPlaces[index] = [req.params.user_id, req.jwt.userId, element.place_name, element.description, element.image_path, element.address];
+    }
+    connection.query(query,[userPlaces], (err, rows) => {
+
+      if (!err) {
+        deferred.resolve(rows);
+      } else {
+        deferred.reject(new Error(err));
+      }
+    });
+    return deferred.promise;
+  },
 };
-
-
-// function genricResponse(query){
-//   var deferred = Q.defer();
-
-//   connection.query(query, (err, rows) => {
-
-//     if (!err) {
-//       deferred.resolve(rows);
-//     } else {
-//       deferred.reject(new Error(err));
-//     }
-//   });
-//   return deferred.promise;
-
-// }
 module.exports = userModel;

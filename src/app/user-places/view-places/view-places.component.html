@@ -1,94 +1,72 @@
 <div class="wrapper ">
-    <div class="main-panel">
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <div class="row">
-                    <div class="col-6">
-                        <h4 class="card-title ">User Places</h4>
-                        <p class="card-category"> Here is a subtitle for this table</p>
-                    </div>
-                    <div class="col-6">
-                        <button class="btn btn-md btn-info pull-right" routerLink="/users/places/place-form/new">Add new</button>
-                    </div>
+  <div class="main-panel">
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <div class="row">
+                  <div class="col-6">
+                    <h4 class="card-title ">User Places</h4>
+                    <p class="card-category"> Here is a all user details with there places details</p>
                   </div>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <th> ID </th>
-                        <th> Name </th>
-                        <th> User Places </th>
-                        <th> Action </th>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of rows; let i = index">
-                          <td>{{i+1}}</td>
-                          <td>{{row.full_name}}</td>
-                          <td> <i class="fa fa-eye fa-gradient" style="font-size:20px; cursor: pointer;" matTooltip="View {{row.full_name}} Places"
-                            [matTooltipPosition]="'above'" aria-hidden="true" (click)="viewPlaces(row.user_id)"></i>&nbsp;
-</td>
-
-                           <td class="td-actions">
-                              <i class="fa fa-trash-o" style="font-size:20px;color:red; cursor: pointer;" matTooltip="Delete Cargo!"
-                                [matTooltipPosition]="'above'" aria-hidden="true" (click)="deleteUserDetails(row.user_id)"></i>&nbsp;
-
-                                <i class="fa fa-pencil" style="font-size:20px;color:rgb(61, 54, 160); cursor: pointer;" matTooltip="Edit User Places!"
-                                [matTooltipPosition]="'above'" aria-hidden="true" (click)="editPlaces(row.user_id)"></i>&nbsp;
-
-                              <i *ngIf="row.status == 0" class="fa fa-toggle-off"
-                                style="font-size:20px;color:rgb(165, 7, 7); cursor: pointer;" (click)="updateStatus(row.user_id, 1)"
-                                matTooltip="Active Cargo" [matTooltipPosition]="'above'" aria-hidden="true"></i>
-
-                              <i *ngIf="row.status == 1" class="fa fa-toggle-on"
-                                style="font-size:20px;color:rgb(8, 128, 18); cursor: pointer;"
-                                (click)="updateStatus(row.user_id, 0)" matTooltip="Deactive Cargo" [matTooltipPosition]="'above'"
-                                aria-hidden="true"></i>
-                            </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div class="col-6">
+                    <button class="btn btn-md btn-info pull-right" routerLink="/users/places/place-form/new">Add
+                      new</button>
                   </div>
                 </div>
               </div>
-            </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th> ID </th>
+                      <th> Name </th>
+                      <th> User Places </th>
+                      <th> Action </th>
+                    </thead>
+                    <tbody>
+                      <div *ngIf="rows == null" class="text-danger text-center"> No data Found!</div>
+                      <tr *ngFor="let row of rows; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{row.full_name}}</td>
+                        <td> <i class="fa fa-eye fa-gradient" style="font-size:20px; cursor: pointer;"
+                            matTooltip="View {{row.full_name}} Places" [matTooltipPosition]="'above'" aria-hidden="true"
+                            (click)="viewPlaces(row.user_id)"></i>&nbsp;
+                        </td>
 
+                        <td class="td-actions">
+                          <i class="fa fa-trash-o" style="font-size:20px;color:red; cursor: pointer;"
+                            matTooltip="Delete Cargo!" [matTooltipPosition]="'above'" aria-hidden="true"
+                            (click)="deleteUserDetails(row.user_id)"></i>&nbsp;
+
+                          <i class="fa fa-pencil" style="font-size:20px;color:rgb(61, 54, 160); cursor: pointer;"
+                            matTooltip="Edit User Places!" [matTooltipPosition]="'above'" aria-hidden="true"
+                            (click)="editPlaces(row.user_id)"></i>&nbsp;
+
+                          <i *ngIf="row.status == 0" class="fa fa-toggle-off"
+                            style="font-size:20px;color:rgb(165, 7, 7); cursor: pointer;"
+                            (click)="updateStatus(row.user_id, 1)" matTooltip="Active Cargo"
+                            [matTooltipPosition]="'above'" aria-hidden="true"></i>
+
+                          <i *ngIf="row.status == 1" class="fa fa-toggle-on"
+                            style="font-size:20px;color:rgb(8, 128, 18); cursor: pointer;"
+                            (click)="updateStatus(row.user_id, 0)" matTooltip="Deactive Cargo"
+                            [matTooltipPosition]="'above'" aria-hidden="true"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     </div>
   </div>
-  <div>
+</div>
+<div>
 
-
-  <ng-template #template>
-      <div class="card">
-
-          <div class="card-header card-header-primary">
-              <div class="row">
-                <div class="col-6">
-                    <h4 class="card-title ">User Places</h4>
-                </div>
-                <div class="col-6">
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                        <span aria-hidden="true">&times;</span>
-                      </button>  </div>
-              </div>
-            </div>
-          </div>
-
-      <!-- <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div> -->
-      <div class="modal-body">
-       <add-place></add-place>
-      </div>
-    </ng-template>
-  </div>

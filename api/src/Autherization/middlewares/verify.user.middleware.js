@@ -6,10 +6,6 @@
 const env = require('../../DB/DB.config');
 const connection = env.Dbconnection;
 const md5 = require('md5');
-const crypto = require('crypto');
-// const sendmail = require("../../config/sendmail");
-const randtoken = require('rand-token');
-
 exports.hasAuthValidFields = (req, res, next) => {
     let errors = [];
     if (req.body) {
